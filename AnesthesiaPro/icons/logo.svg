@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <style>
+      .logo-fill { fill: #1A1D23; }
+      @media (prefers-color-scheme: dark) {
+        .logo-fill { fill: #E8EAF0; }
+      }
+    </style>
+  </defs>
+
+  <!-- Cross (medical plus sign) -->
+  <path class="logo-fill" d="
+    M196 96 h120 v100 h100 v120 h-100 v100 h-120 v-100 h-100 v-120 h100 z
+  " fill-rule="evenodd"/>
+
+  <!-- Cross inner cutout to create outline effect -->
+  <path fill="#FFFFFF" d="
+    M212 112 h88 v100 h100 v88 h-100 v100 h-88 v-100 h-100 v-88 h100 z
+  " fill-rule="evenodd"/>
+
+  <!-- Cross fill (solid arms) -->
+  <!-- Top arm -->
+  <rect class="logo-fill" x="208" y="96" width="96" height="56" rx="4"/>
+  <!-- Bottom arm -->
+  <rect class="logo-fill" x="208" y="360" width="96" height="56" rx="4"/>
+  <!-- Left arm -->
+  <rect class="logo-fill" x="96" y="208" width="56" height="96" rx="4"/>
+  <!-- Right arm -->
+  <rect class="logo-fill" x="360" y="208" width="56" height="96" rx="4"/>
+
+  <!-- Center block of cross -->
+  <rect class="logo-fill" x="196" y="196" width="120" height="120" rx="2"/>
+
+  <!-- Syringe body (vertical, centered) -->
+  <g>
+    <!-- Syringe barrel outer -->
+    <rect fill="#FFFFFF" x="228" y="120" width="56" height="200" rx="6"/>
+    <!-- Syringe barrel border -->
+    <rect class="logo-fill" x="228" y="120" width="56" height="200" rx="6" stroke="#1A1D23" stroke-width="0" fill="none"/>
+    <rect fill="#FFFFFF" x="234" y="126" width="44" height="188" rx="3"/>
+
+    <!-- Plunger handle (top) -->
+    <rect class="logo-fill" x="222" y="88" width="68" height="16" rx="4"/>
+    <!-- Plunger rod -->
+    <rect class="logo-fill" x="250" y="104" width="12" height="36" rx="2"/>
+
+    <!-- Syringe barrel outline -->
+    <rect class="logo-fill" x="228" y="134" width="56" height="6" rx="1"/>
+
+    <!-- Measurement lines on barrel -->
+    <rect class="logo-fill" x="234" y="160" width="20" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="180" width="14" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="200" width="20" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="220" width="14" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="240" width="20" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="260" width="14" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="280" width="20" height="3" rx="1"/>
+    <rect class="logo-fill" x="234" y="300" width="14" height="3" rx="1"/>
+
+    <!-- Syringe bottom cap -->
+    <rect class="logo-fill" x="228" y="314" width="56" height="10" rx="2"/>
+
+    <!-- Syringe nozzle (narrow part going down) -->
+    <rect class="logo-fill" x="248" y="324" width="16" height="24" rx="3"/>
+
+    <!-- Needle -->
+    <rect class="logo-fill" x="253" y="348" width="6" height="76" rx="2"/>
+
+    <!-- Needle tip -->
+    <polygon class="logo-fill" points="256,432 250,418 262,418"/>
+  </g>
+
+  <!-- ECG / heartbeat line (horizontal, crossing the cross) -->
+  <polyline
+    stroke="#FFFFFF"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    points="
+      72,256
+      140,256
+      160,256
+      174,256
+      186,240
+      196,272
+      210,220
+      224,280
+      236,256
+      284,256
+      296,230
+      306,270
+      316,240
+      326,256
+      352,256
+      372,256
+      440,256
+    "
+  />
+
+  <!-- ECG line dark stroke on outer parts -->
+  <polyline
+    class="logo-fill"
+    stroke="#1A1D23"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    points="
+      72,256
+      140,256
+      160,256
+      174,256
+      186,240
+      196,272
+    "
+  />
+  <polyline
+    class="logo-fill"
+    stroke="#1A1D23"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    points="
+      326,256
+      352,256
+      372,256
+      440,256
+    "
+  />
+</svg>

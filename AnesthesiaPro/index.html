@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="description" content="AnesthesiaPro — Calculadora clínica gratuita para anestesiologistas. Funciona offline.">
+<meta name="theme-color" content="#0066CC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="AnesthesiaPro">
+<link rel="manifest" href="manifest.json">
+<title>AnesthesiaPro — Calculadora de Anestesia</title>
+<style>
+  @font-face{
+    font-family:'Bebas Neue';
+    src:url('fonts/BebasNeue-Regular.woff2') format('woff2'),
+        url('fonts/BebasNeue-Regular.ttf') format('truetype');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    --bg-primary:#FFFFFF;--bg-secondary:#F4F6F8;--bg-card:#FFFFFF;--bg-subtle:#F8FAFC;
+    --text-primary:#1A1D23;--text-secondary:#5A6170;--text-muted:#8C92A0;
+    --accent-primary:#0066CC;--accent-primary-hover:#0052A3;--accent-primary-soft:#E6F0FB;
+    --accent-success:#00875A;--accent-success-soft:#E3F5EC;
+    --accent-warning:#E5A100;--accent-warning-soft:#FDF3DC;
+    --accent-danger:#DE1135;--accent-danger-soft:#FCE4E8;
+    --accent-info:#0891B2;--accent-info-soft:#DEF4F8;
+    --border-light:#E2E5EA;--border-medium:#CBD0D8;
+    --shadow-card:0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06);
+    --shadow-elevated:0 6px 20px rgba(15,23,42,.08),0 2px 6px rgba(15,23,42,.05);
+    --shadow-fab:0 8px 24px rgba(222,17,53,.35),0 2px 6px rgba(222,17,53,.25);
+    --radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:18px;
+    --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Helvetica Neue',sans-serif;
+    --font-mono:'SF Mono','JetBrains Mono','Fira Code',Consolas,'Courier New',monospace;
+    --tap:44px;
+  }
+  [data-theme="dark"]{
+    --bg-primary:#0F1117;--bg-secondary:#1A1D27;--bg-card:#1E2130;--bg-subtle:#171A23;
+    --text-primary:#E8EAF0;--text-secondary:#9BA1B0;--text-muted:#6B7185;
+    --accent-primary:#4D9FFF;--accent-primary-hover:#6BB3FF;--accent-primary-soft:#1A2942;
+    --accent-success:#36B37E;--accent-success-soft:#15302A;
+    --accent-warning:#FFAB00;--accent-warning-soft:#332714;
+    --accent-danger:#FF5C5C;--accent-danger-soft:#3A1A20;
+    --accent-info:#22D3EE;--accent-info-soft:#0F2A33;
+    --border-light:#2A2E3D;--border-medium:#383D50;
+    --shadow-card:0 1px 3px rgba(0,0,0,.3);
+    --shadow-elevated:0 4px 12px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-sans);font-size:15px;line-height:1.5;
+    color:var(--text-primary);background:var(--bg-secondary);
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    transition:background-color .25s ease,color .25s ease;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ── Header ── */
+  header.app-header{
+    position:sticky;top:0;z-index:40;
+    background:var(--bg-primary);border-bottom:1px solid var(--border-light);
+    padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));
+    display:flex;align-items:center;gap:12px;height:auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+  .brand-mark{
+    width:34px;height:34px;border-radius:9px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent-primary) 0%,#0050A3 100%);
+    display:grid;place-items:center;color:#fff;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 1px 3px rgba(0,80,163,.3);
+  }
+  .brand-mark svg{width:20px;height:20px}
+  .brand-text{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+  .brand-title{font-family:'Bebas Neue',var(--font-sans);font-size:20px;font-weight:400;letter-spacing:.06em;color:var(--text-primary);text-transform:uppercase}
+  .brand-tag{font-family:'Bebas Neue',var(--font-sans);font-size:12px;color:var(--text-muted);font-weight:400;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .header-actions{display:flex;align-items:center;gap:6px}
+  .icon-btn{
+    width:36px;height:36px;border-radius:8px;border:1px solid var(--border-light);
+    background:var(--bg-primary);color:var(--text-secondary);cursor:pointer;
+    display:grid;place-items:center;transition:all .15s ease;
+  }
+  .icon-btn:hover{background:var(--bg-secondary);color:var(--text-primary);border-color:var(--border-medium)}
+  .icon-btn svg{width:18px;height:18px}
+  .lang-pill{
+    display:flex;align-items:center;border:1px solid var(--border-light);border-radius:8px;
+    background:var(--bg-primary);padding:2px;gap:0;height:36px;
+  }
+  .lang-pill button{
+    background:none;border:0;font:inherit;font-size:11px;font-weight:600;
+    color:var(--text-muted);padding:0 8px;height:100%;border-radius:6px;cursor:pointer;letter-spacing:.02em;
+  }
+  .lang-pill button.active{background:var(--accent-primary);color:#fff}
+
+  /* ── Layout ── */
+  main{max-width:1200px;margin:0 auto;padding:14px 14px 120px;display:flex;flex-direction:column;gap:14px}
+  @media (min-width:1024px){
+    main{display:grid;grid-template-columns:280px 1fr;gap:18px;padding:18px;align-items:start}
+    .left-rail{position:sticky;top:78px;display:flex;flex-direction:column;gap:14px}
+    .right-content{display:flex;flex-direction:column;gap:14px}
+  }
+
+  /* ── Cards ── */
+  .card{
+    background:var(--bg-card);border:1px solid var(--border-light);
+    border-radius:var(--radius-md);box-shadow:var(--shadow-card);
+    overflow:hidden;
+  }
+  .card-head{
+    padding:12px 14px;border-bottom:1px solid var(--border-light);
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--bg-subtle);
+  }
+  .card-head h3{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);display:flex;align-items:center;gap:8px}
+  .card-body{padding:14px}
+  .card-body.tight{padding:10px 14px}
+
+  /* ── Patient card ── */
+  .patient-card .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border-light)}
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;
+    font-size:11.5px;font-weight:600;background:var(--bg-secondary);color:var(--text-secondary);
+    border:1px solid var(--border-light);
+  }
+  .badge.b-info{background:var(--accent-primary-soft);color:var(--accent-primary);border-color:transparent}
+  .badge.b-ok{background:var(--accent-success-soft);color:var(--accent-success);border-color:transparent}
+  .badge.b-warn{background:var(--accent-warning-soft);color:#A26F00;border-color:transparent}
+  [data-theme="dark"] .badge.b-warn{color:var(--accent-warning)}
+  .badge.b-danger{background:var(--accent-danger-soft);color:var(--accent-danger);border-color:transparent}
+
+  /* ── Inputs ── */
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:.01em}
+  .field input[type=number],.field input[type=text],.field select{
+    height:44px;padding:0 12px;font:inherit;font-size:15px;color:var(--text-primary);
+    background:var(--bg-primary);border:1.5px solid var(--border-medium);
+    border-radius:var(--radius-sm);transition:border-color .15s ease,box-shadow .15s ease;width:100%;
+    font-variant-numeric:tabular-nums;
+  }
+  .field input:focus,.field select:focus{outline:none;border-color:var(--accent-primary);box-shadow:0 0 0 3px rgba(0,102,204,.15)}
+  .field input.invalid{border-color:var(--accent-danger);box-shadow:0 0 0 3px rgba(222,17,53,.12)}
+  .field-error{font-size:11px;color:var(--accent-danger);font-weight:500;display:none}
+  .field input.invalid + .field-error{display:block}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media (min-width:560px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+
+  /* segmented */
+  .segmented{
+    display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0;
+    border:1.5px solid var(--border-medium);border-radius:var(--radius-sm);overflow:hidden;height:44px;
+  }
+  .segmented button{
+    background:var(--bg-primary);border:0;font:inherit;font-size:13px;font-weight:600;
+    color:var(--text-secondary);cursor:pointer;border-right:1.5px solid var(--border-medium);transition:all .15s ease;
+  }
+  .segmented button:last-child{border-right:0}
+  .segmented button.active{background:var(--accent-primary);color:#fff}
+
+  /* ── Result cards ── */
+  .results-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media (min-width:560px){.results-grid{grid-template-columns:1fr 1fr}}
+  @media (min-width:1024px){.results-grid{grid-template-columns:repeat(2,1fr)}}
+  .results-grid.three{grid-template-columns:1fr}
+  @media (min-width:560px){.results-grid.three{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:1024px){.results-grid.three{grid-template-columns:repeat(3,1fr)}}
+
+  .result{
+    background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);
+    padding:12px 14px;position:relative;display:flex;flex-direction:column;gap:6px;
+  }
+  .result-label{font-size:11.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;padding-right:32px}
+  .result-value{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+  .result-number{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--text-primary);line-height:1.1}
+  .result-unit{font-size:13px;color:var(--text-secondary);font-weight:500}
+  .result-formula{font-family:var(--font-mono);font-size:11.5px;color:var(--text-muted);line-height:1.45;word-break:break-word}
+  .result.is-primary{border-color:var(--accent-primary);background:linear-gradient(180deg,var(--accent-primary-soft) 0%,var(--bg-card) 60%)}
+  .result.is-primary .result-number{color:var(--accent-primary)}
+  .result.is-success{border-left:3px solid var(--accent-success)}
+  .result.is-success .result-number{color:var(--accent-success)}
+  .result.is-warn{border-left:3px solid var(--accent-warning)}
+  .result.is-danger{border-left:3px solid var(--accent-danger)}
+  .copy-btn{
+    position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:6px;border:1px solid var(--border-light);
+    background:var(--bg-subtle);color:var(--text-secondary);cursor:pointer;display:grid;place-items:center;transition:all .15s ease;
+  }
+  .copy-btn:hover{color:var(--accent-primary);border-color:var(--accent-primary)}
+  .copy-btn.copied{background:var(--accent-success);color:#fff;border-color:var(--accent-success)}
+  .copy-btn svg{width:14px;height:14px}
+
+  /* ── Alerts ── */
+  .alert{
+    display:flex;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);
+    border-left:4px solid var(--accent-info);background:var(--accent-info-soft);
+    color:var(--text-primary);font-size:13px;line-height:1.45;
+  }
+  .alert.is-warn{border-left-color:var(--accent-warning);background:var(--accent-warning-soft)}
+  .alert.is-danger{border-left-color:var(--accent-danger);background:var(--accent-danger-soft)}
+  .alert.is-success{border-left-color:var(--accent-success);background:var(--accent-success-soft)}
+  .alert strong{font-weight:600;display:block;margin-bottom:2px}
+  .alert svg{flex-shrink:0;width:18px;height:18px;margin-top:1px}
+
+  /* ── Tabs ── */
+  .tabs{
+    position:sticky;top:60px;z-index:30;background:var(--bg-secondary);
+    margin:0 -14px 4px;padding:6px 14px 0;
+  }
+  .tabs-track{
+    display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x mandatory;
+    -ms-overflow-style:none;scrollbar-width:none;
+    background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);
+    padding:5px;box-shadow:var(--shadow-card);
+  }
+  .tabs-track::-webkit-scrollbar{display:none}
+  .tab{
+    display:flex;align-items:center;gap:6px;padding:8px 12px;flex-shrink:0;
+    border-radius:var(--radius-sm);background:transparent;border:0;cursor:pointer;
+    font:inherit;font-size:13px;font-weight:600;color:var(--text-secondary);
+    scroll-snap-align:start;min-height:36px;white-space:nowrap;transition:all .15s ease;
+  }
+  .tab:hover{color:var(--text-primary);background:var(--bg-secondary)}
+  .tab.active{background:var(--accent-primary);color:#fff;box-shadow:0 1px 2px rgba(0,80,163,.25)}
+  .tab svg{width:15px;height:15px}
+  @media (min-width:1024px){
+    .tabs{position:static;margin:0;padding:0}
+    .tabs-track{flex-direction:column;padding:6px;background:var(--bg-card)}
+    .tab{justify-content:flex-start;width:100%;padding:10px 12px;font-size:14px}
+  }
+
+  /* ── Tab panels ── */
+  .panel{display:none;flex-direction:column;gap:12px}
+  .panel.active{display:flex}
+  .section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin:6px 2px 2px}
+
+  /* ── Drug table ── */
+  .drug-group{margin-bottom:14px}
+  .drug-group:last-child{margin-bottom:0}
+  .drug-group-title{
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--accent-primary);margin-bottom:8px;padding-left:2px;
+  }
+  .drug-list{display:grid;grid-template-columns:1fr;gap:8px}
+  @media (min-width:768px){.drug-list{grid-template-columns:1fr 1fr}}
+  .drug{
+    background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-sm);
+    padding:10px 12px;display:flex;flex-direction:column;gap:4px;position:relative;
+  }
+  .drug-name{font-size:14px;font-weight:600;color:var(--text-primary);padding-right:28px}
+  .drug-name small{font-weight:400;color:var(--text-muted);font-size:12px;margin-left:4px}
+  .drug-result{display:flex;align-items:baseline;gap:4px;font-variant-numeric:tabular-nums}
+  .drug-result .num{font-size:18px;font-weight:700;color:var(--accent-primary);letter-spacing:-.01em}
+  .drug-result .unit{font-size:12px;color:var(--text-secondary)}
+  .drug-meta{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);line-height:1.4}
+  .drug .copy-btn{top:8px;right:8px;width:24px;height:24px}
+  .drug .copy-btn svg{width:12px;height:12px}
+
+  /* Accordion */
+  .accordion-item{
+    border:1px solid var(--border-light);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg-card);
+  }
+  .accordion-item + .accordion-item{margin-top:6px}
+  .accordion-head{
+    width:100%;padding:12px 14px;background:none;border:0;font:inherit;font-size:14px;font-weight:600;
+    color:var(--text-primary);text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .accordion-head:hover{background:var(--bg-subtle)}
+  .accordion-head .chev{transition:transform .2s ease;color:var(--text-muted);width:16px;height:16px}
+  .accordion-item.open .chev{transform:rotate(180deg)}
+  .accordion-body{display:none;padding:0 14px 14px;font-size:13.5px;line-height:1.6;color:var(--text-secondary)}
+  .accordion-item.open .accordion-body{display:block}
+  .accordion-body strong{color:var(--text-primary);font-weight:600}
+  .accordion-body ul{padding-left:18px;margin:6px 0}
+  .accordion-body li{margin:3px 0}
+  .accordion-body li + li{margin-top:4px}
+
+  /* Block tracker */
+  .progress-track{
+    height:8px;background:var(--bg-secondary);border-radius:99px;overflow:hidden;border:1px solid var(--border-light);
+  }
+  .progress-fill{height:100%;background:var(--accent-success);border-radius:99px;transition:width .3s ease,background-color .2s ease}
+  .progress-fill.warn{background:var(--accent-warning)}
+  .progress-fill.danger{background:var(--accent-danger)}
+
+  /* Drug history */
+  .dose-row{
+    display:flex;justify-content:space-between;align-items:center;padding:8px 10px;
+    background:var(--bg-subtle);border-radius:var(--radius-sm);border:1px solid var(--border-light);font-size:13px;
+  }
+  .dose-row + .dose-row{margin-top:6px}
+  .dose-row button{
+    background:none;border:0;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;padding:4px 6px;border-radius:4px;
+  }
+  .dose-row button:hover{color:var(--accent-danger);background:var(--accent-danger-soft)}
+
+  /* ── Buttons ── */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    height:40px;padding:0 14px;border-radius:var(--radius-sm);border:0;
+    font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s ease;
+  }
+  .btn-primary{background:var(--accent-primary);color:#fff}
+  .btn-primary:hover{background:var(--accent-primary-hover)}
+  .btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border-medium)}
+  .btn-ghost:hover{background:var(--bg-subtle);color:var(--text-primary)}
+  .btn-danger{background:var(--accent-danger);color:#fff}
+  .btn-sm{height:32px;padding:0 10px;font-size:12px}
+
+  /* ── Surgical timer ── */
+  .timer-bar{
+    background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);
+    box-shadow:var(--shadow-card);overflow:hidden;
+  }
+  .timer-head{
+    display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border-light);
+  }
+  .timer-clock{
+    font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--text-primary);
+    font-variant-numeric:tabular-nums;letter-spacing:.02em;
+  }
+  .timer-clock.running{color:var(--accent-success)}
+  .timer-state{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
+  .timer-controls{margin-left:auto;display:flex;gap:6px}
+  .timer-events{display:flex;flex-wrap:wrap;gap:4px;padding:8px 10px}
+  .timer-events button{
+    background:var(--bg-subtle);border:1px solid var(--border-light);border-radius:99px;
+    padding:6px 10px;font:inherit;font-size:11.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;
+    display:inline-flex;align-items:center;gap:5px;transition:all .15s;
+  }
+  .timer-events button:hover:not(:disabled){border-color:var(--accent-primary);color:var(--accent-primary)}
+  .timer-events button:disabled{opacity:.4;cursor:not-allowed}
+  .timer-events button .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-primary)}
+  .timer-log{padding:0 14px 12px;display:flex;flex-direction:column;gap:4px;max-height:140px;overflow-y:auto}
+  .timer-log:empty{display:none}
+  .timer-log-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px dashed var(--border-light)}
+  .timer-log-row:last-child{border:0}
+  .timer-log-row .ev{color:var(--text-primary);font-weight:500}
+  .timer-log-row .ts{font-family:var(--font-mono);color:var(--text-muted)}
+
+  /* ── FAB Emergency ── */
+  .fab-emergency{
+    position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:20px;z-index:50;
+    width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;
+    background:var(--accent-danger);color:#fff;box-shadow:var(--shadow-fab);
+    display:grid;place-items:center;
+  }
+  .fab-emergency::before{
+    content:'';position:absolute;inset:-4px;border-radius:50%;
+    border:3px solid var(--accent-danger);opacity:.5;animation:pulse 2s ease-out infinite;
+  }
+  @keyframes pulse{0%{transform:scale(.95);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+  .fab-emergency svg{width:26px;height:26px}
+  .fab-emergency .lbl{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--accent-danger);text-transform:uppercase;letter-spacing:.06em;text-shadow:0 1px 2px rgba(255,255,255,.6)}
+  [data-theme="dark"] .fab-emergency .lbl{text-shadow:0 1px 2px rgba(0,0,0,.6)}
+
+  /* ── Emergency overlay ── */
+  .emergency-overlay{
+    position:fixed;inset:0;z-index:100;background:rgba(8,10,15,.94);backdrop-filter:blur(6px);
+    display:none;flex-direction:column;color:#E8EAF0;overflow-y:auto;
+    padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
+  }
+  .emergency-overlay.open{display:flex}
+  .emergency-head{
+    display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1);max-width:900px;width:100%;margin:0 auto;
+  }
+  .emergency-head h2{font-size:18px;font-weight:700;letter-spacing:-.01em;color:#fff;flex:1;display:flex;align-items:center;gap:10px}
+  .emergency-head h2 .dot{width:10px;height:10px;border-radius:50%;background:#FF5C5C;box-shadow:0 0 12px #FF5C5C;animation:emerg-pulse 1.4s ease-in-out infinite}
+  @keyframes emerg-pulse{50%{opacity:.4}}
+  .emergency-close{
+    width:40px;height:40px;border-radius:8px;border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.05);color:#fff;cursor:pointer;display:grid;place-items:center;
+  }
+  .emergency-close:hover{background:rgba(255,255,255,.12)}
+  .emergency-content{max-width:900px;width:100%;margin:0 auto;padding:14px 0;display:flex;flex-direction:column;gap:10px}
+  .er-card{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-left:4px solid #FF5C5C;
+    border-radius:10px;overflow:hidden;
+  }
+  .er-card-head{
+    width:100%;padding:14px 16px;background:none;border:0;font:inherit;color:#fff;font-size:15px;font-weight:700;
+    text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .er-card-head .chev{color:rgba(255,255,255,.4);transition:transform .2s}
+  .er-card.open .chev{transform:rotate(180deg)}
+  .er-card-body{display:none;padding:0 16px 16px;font-size:14px;line-height:1.65;color:rgba(255,255,255,.85)}
+  .er-card.open .er-card-body{display:block}
+  .er-dose{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.08);
+  }
+  .er-dose:last-child{border:0}
+  .er-dose .er-label{font-size:13px;color:rgba(255,255,255,.7);flex:1}
+  .er-dose .er-val{font-family:var(--font-mono);font-size:18px;font-weight:700;color:#FFD27A;font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.01em}
+  .er-dose.crit .er-val{color:#FF5C5C}
+  .er-note{margin-top:8px;padding:8px 10px;background:rgba(255,92,92,.12);border-radius:6px;font-size:12.5px;color:#FFB8B8}
+
+  .er-pcr-timer{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:rgba(255,210,122,.08);border-radius:8px}
+  .er-pcr-timer .clk{font-family:var(--font-mono);font-size:20px;font-weight:700;color:#FFD27A}
+  .er-pcr-timer button{background:#FFD27A;color:#1A1100;border:0;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
+    background:var(--text-primary);color:var(--bg-primary);padding:10px 16px;border-radius:99px;font-size:13px;font-weight:500;
+    z-index:200;transition:all .25s ease;box-shadow:var(--shadow-elevated);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* Disclaimer */
+  .disclaimer{
+    position:fixed;bottom:0;left:0;right:0;z-index:35;background:var(--bg-primary);
+    border-top:1px solid var(--border-light);padding:8px 14px;padding-bottom:max(8px,env(safe-area-inset-bottom));
+    display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--text-muted);
+    transition:transform .3s ease;
+  }
+  .disclaimer.collapsed{transform:translateY(calc(100% - 28px))}
+  .disclaimer-toggle{
+    background:none;border:0;color:var(--accent-primary);font-size:11px;font-weight:600;cursor:pointer;padding:2px 6px;
+    flex-shrink:0;
+  }
+  .disclaimer p{flex:1;line-height:1.4}
+
+  /* Install banner */
+  .install-banner{
+    position:fixed;bottom:calc(60px + env(safe-area-inset-bottom));left:14px;right:14px;z-index:45;
+    background:var(--accent-primary);color:#fff;padding:12px 14px;border-radius:var(--radius-md);
+    box-shadow:var(--shadow-elevated);display:none;align-items:center;gap:10px;
+  }
+  .install-banner.show{display:flex}
+  .install-banner svg{flex-shrink:0;width:22px;height:22px}
+  .install-banner p{flex:1;font-size:13px;font-weight:500;line-height:1.3}
+  .install-banner button{background:rgba(255,255,255,.18);border:0;color:#fff;padding:6px 10px;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer}
+  .install-banner button.dismiss{background:transparent;color:rgba(255,255,255,.7);font-size:18px;padding:4px 8px}
+
+  /* Helpers */
+  .small{font-size:12px;color:var(--text-secondary)}
+  .muted{color:var(--text-muted)}
+  .row{display:flex;align-items:center;gap:8px}
+  .stretch{flex:1}
+  .stack{display:flex;flex-direction:column;gap:8px}
+  .pill-list{display:flex;flex-wrap:wrap;gap:6px}
+  table.t{width:100%;border-collapse:collapse;font-size:13px}
+  table.t th,table.t td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--border-light);font-variant-numeric:tabular-nums}
+  table.t th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:600}
+  table.t tbody tr:hover{background:var(--bg-subtle)}
+  hr.sep{border:0;border-top:1px dashed var(--border-light);margin:8px 0}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 -960 960 960" fill="currentColor"><path d="m320-60-80-60v-160h-40q-33 0-56.5-23.5T120-360v-300q-17 0-28.5-11.5T80-700q0-17 11.5-28.5T120-740h120v-60h-20q-17 0-28.5-11.5T180-840q0-17 11.5-28.5T220-880h120q17 0 28.5 11.5T380-840q0 17-11.5 28.5T340-800h-20v60h120q17 0 28.5 11.5T480-700q0 17-11.5 28.5T440-660v300q0 33-23.5 56.5T360-280h-40v220ZM200-360h160v-60h-70q-12 0-21-9t-9-21q0-12 9-21t21-9h70v-60h-70q-12 0-21-9t-9-21q0-12 9-21t21-9h70v-60H200v300ZM600-80q-33 0-56.5-23.5T520-160v-260q0-29 10-48t21-33q11-14 20-22.5t9-16.5v-20q-17 0-28.5-11.5T540-600q0-17 11.5-28.5T580-640h200q17 0 28.5 11.5T820-600q0 17-11.5 28.5T780-560v20q0 8 10 18t22 24q11 14 19.5 33t8.5 45v260q0 33-23.5 56.5T760-80H600Zm0-320h160v-20q0-15-9-26t-20-24q-11-13-21-29t-10-41v-20h-40v20q0 24-9.5 40T630-471q-11 13-20.5 24.5T600-420v20Zm0 120h160v-60H600v60Zm0 120h160v-60H600v60Z"/></svg>
+    </div>
+    <div class="brand-text">
+      <div class="brand-title">AnesthesiaPro</div>
+      <div class="brand-tag" data-i18n="tagline">Precisão na palma da mão</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="lang-pill" role="tablist" aria-label="Idioma">
+      <button data-lang="pt" class="active" type="button">PT</button>
+      <button data-lang="en" type="button">EN</button>
+      <button data-lang="es" type="button">ES</button>
+    </div>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="Alternar tema">
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <aside class="left-rail">
+    <!-- Patient -->
+    <section class="card patient-card" aria-labelledby="patient-h">
+      <div class="card-head">
+        <h3 id="patient-h">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M14 7l4-4M14 7v3a2 2 0 0 0 2 2h3"/><path d="M3 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/></svg>
+          <span data-i18n="patient_data">Dados do Paciente</span>
+        </h3>
+        <button class="btn btn-ghost btn-sm" id="newPatient" type="button"><span data-i18n="new_patient">Novo</span></button>
+      </div>
+      <div class="card-body">
+        <div class="grid-2">
+          <div class="field">
+            <label for="weight" data-i18n="weight_label">Peso (kg)</label>
+            <input type="number" inputmode="decimal" id="weight" min="0.5" max="300" step="0.1" value="70">
+            <div class="field-error" data-i18n="invalid_weight">Peso fora do range (0.5–300 kg)</div>
+          </div>
+          <div class="field">
+            <label for="height" data-i18n="height_label">Altura (cm)</label>
+            <input type="number" inputmode="decimal" id="height" min="30" max="250" step="0.5" value="172">
+            <div class="field-error" data-i18n="invalid_height">Altura fora do range (30–250 cm)</div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:10px">
+          <div class="field">
+            <label data-i18n="sex_label">Sexo</label>
+            <div class="segmented" role="radiogroup" id="sexSeg">
+              <button type="button" data-val="m" class="active" data-i18n="male">Masculino</button>
+              <button type="button" data-val="f" data-i18n="female">Feminino</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="age" data-i18n="age_label">Idade (anos)</label>
+            <input type="number" inputmode="decimal" id="age" min="0" max="120" step="1" value="35">
+          </div>
+        </div>
+        <div class="badges" id="patientBadges"></div>
+      </div>
+    </section>
+
+    <!-- Surgical timer -->
+    <section class="card timer-bar" aria-labelledby="timer-h">
+      <div class="timer-head">
+        <div>
+          <div class="timer-clock" id="timerClock">00:00:00</div>
+          <div class="timer-state" id="timerState" data-i18n="timer_idle">Inativo</div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn btn-ghost btn-sm" id="timerToggle" type="button"><span data-i18n="start">Iniciar</span></button>
+          <button class="btn btn-ghost btn-sm" id="timerReset" type="button" data-i18n="reset">Zerar</button>
+        </div>
+      </div>
+      <div class="timer-events" id="timerEvents"></div>
+      <div class="timer-log" id="timerLog"></div>
+    </section>
+  </aside>
+
+  <div class="right-content">
+    <!-- Tabs -->
+    <nav class="tabs" role="tablist" aria-label="Calculadoras">
+      <div class="tabs-track" id="tabsTrack"></div>
+    </nav>
+
+    <!-- Panels -->
+    <section class="panel active" data-panel="volemia" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_volemia">Volemia</span></h3></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="field"><label for="fastHrs" data-i18n="fasting_hours">Jejum (h)</label><input type="number" inputmode="decimal" id="fastHrs" value="8" min="0" max="48"></div>
+            <div class="field"><label for="hctI" data-i18n="hct_initial">Hct inicial (%)</label><input type="number" inputmode="decimal" id="hctI" value="40" min="10" max="70"></div>
+            <div class="field"><label for="hctT" data-i18n="hct_target">Hct alvo (%)</label><input type="number" inputmode="decimal" id="hctT" value="30" min="10" max="70"></div>
+          </div>
+        </div>
+      </div>
+      <div class="results-grid three" id="volResults"></div>
+      <div id="volRecommendation"></div>
+    </section>
+
+    <section class="panel" data-panel="drugs" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_drugs">Drogas</span></h3>
+          <span class="small muted" data-i18n="drugs_hint">Doses calculadas pelo peso indicado</span></div>
+        <div class="card-body" id="drugList"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="ventilation" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_ventilation">Ventilação</span></h3></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <div class="field"><label for="rr" data-i18n="rr_label">FR (irpm)</label><input type="number" inputmode="decimal" id="rr" value="12" min="4" max="40"></div>
+            <div class="field"><label for="peep" data-i18n="peep_label">PEEP (cmH₂O)</label><input type="number" inputmode="decimal" id="peep" value="5" min="0" max="20"></div>
+            <div class="field"><label for="fio2" data-i18n="fio2_label">FiO₂ (%)</label><input type="number" inputmode="decimal" id="fio2" value="50" min="21" max="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="results-grid three" id="ventResults"></div>
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="material_recommended">Material recomendado</h3></div>
+        <div class="card-body" id="ventMaterial"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="vent_targets">Metas ventilatórias</h3></div>
+        <div class="card-body" id="ventTargets"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="pediatrics" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_pediatrics">Pediatria</span></h3>
+          <span class="small muted" data-i18n="ped_hint">Idade do paciente é usada</span></div>
+        <div class="card-body" id="pedSummary"></div>
+      </div>
+      <div class="results-grid three" id="pedResults"></div>
+      <div class="card" style="border-color:var(--accent-danger);background:var(--accent-danger-soft)">
+        <div class="card-head" style="background:transparent;border-bottom-color:rgba(222,17,53,.2)">
+          <h3 style="color:var(--accent-danger)">⚡ <span data-i18n="ped_emerg">Emergência Pediátrica</span></h3>
+        </div>
+        <div class="card-body" id="pedEmerg"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="ped_routine">Drogas rotineiras</h3></div>
+        <div class="card-body" id="pedRoutine"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="pump" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_pump">Bomba de Infusão</span></h3></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field">
+              <label for="pumpDrug" data-i18n="drug">Droga</label>
+              <select id="pumpDrug"></select>
+            </div>
+            <div class="field">
+              <label for="pumpDose" data-i18n="desired_dose">Dose desejada</label>
+              <input type="number" inputmode="decimal" id="pumpDose" value="0.05" step="0.01" min="0">
+            </div>
+            <div class="field">
+              <label for="pumpUnit" data-i18n="unit">Unidade</label>
+              <select id="pumpUnit">
+                <option value="mcg/kg/min">mcg/kg/min</option>
+                <option value="mcg/kg/h">mcg/kg/h</option>
+                <option value="mg/kg/h">mg/kg/h</option>
+                <option value="mcg/min">mcg/min</option>
+                <option value="mg/h">mg/h</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pumpConc" data-i18n="concentration">Concentração (mcg/ml)</label>
+              <input type="number" inputmode="decimal" id="pumpConc" value="64">
+            </div>
+          </div>
+          <div class="alert" id="pumpDilution" style="margin-top:12px"></div>
+        </div>
+      </div>
+      <div class="results-grid" id="pumpResults"></div>
+      <div id="pumpAlerts"></div>
+    </section>
+
+    <section class="panel" data-panel="techniques" role="tabpanel">
+      <div class="section-title" data-i18n="tab_techniques">Técnicas</div>
+      <div id="techList"></div>
+    </section>
+
+    <section class="panel" data-panel="blocks" role="tabpanel">
+      <div class="card">
+        <div class="card-head"><h3><span data-i18n="tab_blocks">Bloqueios Regionais</span></h3></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field">
+              <label for="blockAnesth" data-i18n="anesthetic">Anestésico</label>
+              <select id="blockAnesth">
+                <option value="lido">Lidocaína</option>
+                <option value="bupi" selected>Bupivacaína</option>
+                <option value="ropi">Ropivacaína</option>
+                <option value="levo">Levobupivacaína</option>
+              </select>
+            </div>
+            <div class="field">
+              <label data-i18n="with_epi">Com epinefrina</label>
+              <div class="segmented" id="epiSeg">
+                <button type="button" data-val="0" class="active" data-i18n="no">Não</button>
+                <button type="button" data-val="1" data-i18n="yes">Sim</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="blockType" data-i18n="block_select">Bloqueio</label>
+              <select id="blockType"></select>
+            </div>
+            <div class="field">
+              <label for="blockVol" data-i18n="volume_ml">Volume (ml)</label>
+              <input type="number" inputmode="decimal" id="blockVol" value="20" min="0" step="0.5">
+            </div>
+            <div class="field">
+              <label for="blockConc" data-i18n="concentration_pct">Concentração (%)</label>
+              <input type="number" inputmode="decimal" id="blockConc" value="0.5" min="0" step="0.05">
+            </div>
+            <div class="field" style="display:flex;align-items:flex-end">
+              <button class="btn btn-primary" id="addDose" type="button" style="width:100%" data-i18n="add_dose">Registrar bloqueio</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3 data-i18n="dose_tracker">Dose acumulada</h3>
+          <button class="btn btn-ghost btn-sm" id="clearDoses" type="button" data-i18n="clear">Limpar</button>
+        </div>
+        <div class="card-body" id="blockTracker"></div>
+      </div>
+      <div class="card" style="border-left:4px solid var(--accent-warning)">
+        <div class="card-head"><h3 style="color:#A26F00" data-i18n="last_protocol">LAST — Resgate Lipídico</h3></div>
+        <div class="card-body" id="lastBox"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<button class="fab-emergency" id="fabEmerg" type="button" aria-label="Modo emergência">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><path d="M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
+  <span class="lbl">SOS</span>
+</button>
+
+<div class="emergency-overlay" id="emergencyOverlay" role="dialog" aria-modal="true" aria-label="Modo emergência">
+  <div class="emergency-head">
+    <h2><span class="dot"></span><span data-i18n="emergency_mode">Modo Emergência</span></h2>
+    <button class="emergency-close" id="closeEmerg" type="button" aria-label="Fechar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="emergency-content" id="emergencyContent"></div>
+</div>
+
+<div class="install-banner" id="installBanner">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+  <p data-i18n="install_prompt">Instalar AnesthesiaPro para uso offline</p>
+  <button id="installBtn" type="button" data-i18n="install">Instalar</button>
+  <button class="dismiss" id="installDismiss" type="button" aria-label="Dispensar">×</button>
+</div>
+
+<div class="disclaimer" id="disclaimer">
+  <p data-i18n="disclaimer">Ferramenta de apoio à decisão clínica. Não substitui o julgamento médico. Confira sempre antes de administrar.</p>
+  <button class="disclaimer-toggle" id="discToggle" type="button">↕</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
