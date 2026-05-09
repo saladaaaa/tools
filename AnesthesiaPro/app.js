@@ -66,7 +66,26 @@ const T = {
     er_last:"LAST", er_bronc:"Broncoespasmo Severo",
     er_no_halog:"PARAR halogenados imediatamente",
     er_avoid_last:"NÃO USAR: lidocaína, vasopressina, bloq. cálcio, betabloqueadores",
-    new_version:"Nova versão disponível — recarregue para atualizar"
+    new_version:"Nova versão disponível — recarregue para atualizar",
+    tab_practice:"Minha Prática",
+    procedure:"Procedimento", procedure_ph:"ex: Colecistectomia",
+    case_saved:"Caso salvo em Minha Prática ✓", case_discarded:"Caso descartado",
+    practice_empty_t:"Sem casos ainda",
+    practice_empty_d:"Termine um caso tocando em \"Fim caso\" no timer cirúrgico para que ele apareça aqui.",
+    practice_filter_month:"Este mês", practice_filter_all:"12 meses",
+    stat_cases:"Casos", stat_or_hours:"h em sala", stat_avg:"Tempo médio",
+    practice_top_proc:"Procedimentos mais frequentes",
+    practice_top_drugs:"Drogas mais usadas",
+    practice_dow:"Distribuição semanal",
+    practice_recent:"Casos recentes",
+    practice_no_proc:"Sem procedimento registrado",
+    practice_open_wrapped:"✨ Gerar Wrapped do mês",
+    delete_case:"Excluir caso", confirm_delete_case:"Excluir este caso?",
+    no_drug_logged:"Nenhuma droga registrada neste caso",
+    min_short:"min", h_short:"h",
+    dow_sun:"D", dow_mon:"S", dow_tue:"T", dow_wed:"Q", dow_thu:"Q", dow_fri:"S", dow_sat:"S",
+    month_short:["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
+    month_full:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
   },
   en: {
     tagline:"Precision at your fingertips",
@@ -131,7 +150,26 @@ const T = {
     er_last:"LAST", er_bronc:"Severe Bronchospasm",
     er_no_halog:"STOP volatile agents immediately",
     er_avoid_last:"DO NOT USE: lidocaine, vasopressin, calcium blockers, beta-blockers",
-    new_version:"New version available — reload to update"
+    new_version:"New version available — reload to update",
+    tab_practice:"My Practice",
+    procedure:"Procedure", procedure_ph:"e.g. Cholecystectomy",
+    case_saved:"Case saved to My Practice ✓", case_discarded:"Case discarded",
+    practice_empty_t:"No cases yet",
+    practice_empty_d:"Finish a case by tapping \"End case\" on the surgical timer and it will show up here.",
+    practice_filter_month:"This month", practice_filter_all:"12 months",
+    stat_cases:"Cases", stat_or_hours:"OR hours", stat_avg:"Avg duration",
+    practice_top_proc:"Most frequent procedures",
+    practice_top_drugs:"Most used drugs",
+    practice_dow:"Weekly distribution",
+    practice_recent:"Recent cases",
+    practice_no_proc:"No procedure recorded",
+    practice_open_wrapped:"✨ Monthly Wrapped",
+    delete_case:"Delete case", confirm_delete_case:"Delete this case?",
+    no_drug_logged:"No drug logged in this case",
+    min_short:"min", h_short:"h",
+    dow_sun:"S", dow_mon:"M", dow_tue:"T", dow_wed:"W", dow_thu:"T", dow_fri:"F", dow_sat:"S",
+    month_short:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    month_full:["January","February","March","April","May","June","July","August","September","October","November","December"]
   },
   es: {
     tagline:"Precisión en la palma de tu mano",
@@ -196,7 +234,26 @@ const T = {
     er_last:"LAST", er_bronc:"Broncoespasmo Severo",
     er_no_halog:"DETENER halogenados de inmediato",
     er_avoid_last:"NO USAR: lidocaína, vasopresina, bloq. calcio, betabloqueadores",
-    new_version:"Nueva versión disponible — recargue para actualizar"
+    new_version:"Nueva versión disponible — recargue para actualizar",
+    tab_practice:"Mi Práctica",
+    procedure:"Procedimiento", procedure_ph:"ej: Colecistectomía",
+    case_saved:"Caso guardado en Mi Práctica ✓", case_discarded:"Caso descartado",
+    practice_empty_t:"Sin casos aún",
+    practice_empty_d:"Termine un caso tocando \"Fin caso\" en el timer quirúrgico para que aparezca aquí.",
+    practice_filter_month:"Este mes", practice_filter_all:"12 meses",
+    stat_cases:"Casos", stat_or_hours:"h en sala", stat_avg:"Duración media",
+    practice_top_proc:"Procedimientos más frecuentes",
+    practice_top_drugs:"Fármacos más usados",
+    practice_dow:"Distribución semanal",
+    practice_recent:"Casos recientes",
+    practice_no_proc:"Sin procedimiento registrado",
+    practice_open_wrapped:"✨ Wrapped del mes",
+    delete_case:"Eliminar caso", confirm_delete_case:"¿Eliminar este caso?",
+    no_drug_logged:"No se registró ningún fármaco",
+    min_short:"min", h_short:"h",
+    dow_sun:"D", dow_mon:"L", dow_tue:"M", dow_wed:"X", dow_thu:"J", dow_fri:"V", dow_sat:"S",
+    month_short:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],
+    month_full:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
   }
 };
 
@@ -250,7 +307,8 @@ const TABS = [
   { id:'pediatrics', icon:'👶', svg:'<circle cx="12" cy="8" r="4"/><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>' },
   { id:'pump', icon:'⚗️', svg:'<rect x="6" y="3" width="12" height="6" rx="1"/><path d="M9 9l-3 12h12L15 9"/>' },
   { id:'techniques', icon:'📋', svg:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/>' },
-  { id:'blocks', icon:'🧊', svg:'<path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/>' }
+  { id:'blocks', icon:'🧊', svg:'<path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/>' },
+  { id:'practice', icon:'📊', svg:'<rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="6" width="4" height="15" rx="1"/><rect x="17" y="9" width="4" height="12" rx="1"/>' }
 ];
 
 function renderTabs(){
@@ -272,6 +330,7 @@ function switchTab(id){
   if(active && active.scrollIntoView){
     active.parentElement.scrollTo({left:active.offsetLeft - 12, behavior:'smooth'});
   }
+  if(id==='practice' && window.PracticeRender) window.PracticeRender();
 }
 
 // ─────────── i18n apply ───────────
@@ -775,6 +834,7 @@ function renderTimerStatic(){
       if(!state.timer.running && state.timer.accum===0){ toggleTimer(); }
       state.timer.events.push({k:b.dataset.ev, ms:timerNow(), at:Date.now()});
       saveState(); renderTimerStatic(); renderTimerLog();
+      if(b.dataset.ev === 'ev_endcase'){ if(window.PracticeArchive) window.PracticeArchive(); }
     });
   });
 }
@@ -896,6 +956,9 @@ function closeEmergency(){
   if(pcrInterval){ clearInterval(pcrInterval); pcrRunning=false; pcrSecs=0; }
 }
 
+// ─────────── (Case History moved to practice.js) ───────────
+
+// ─────────── (Practice Overlay moved to practice.js) ───────────
 // ─────────── Persistence ───────────
 function saveState(){
   try {
@@ -1001,8 +1064,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // New patient
   document.getElementById('newPatient').addEventListener('click', ()=>{
     if(confirm(t('confirm_new'))){
+      if(window.PracticeArchive) window.PracticeArchive();
       state.weight=70; state.height=172; state.sex='m'; state.age=35;
       state.registeredDoses = [];
+      resetTimer();
       ['weight','height','age'].forEach(k=>document.getElementById(k).value=state[k]);
       document.querySelectorAll('#sexSeg button').forEach(b=>b.classList.toggle('active', b.dataset.val==='m'));
       saveState(); renderAll();
@@ -1053,7 +1118,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Emergency
   document.getElementById('fabEmerg').addEventListener('click', openEmergency);
   document.getElementById('closeEmerg').addEventListener('click', closeEmergency);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEmergency(); });
+
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){ closeEmergency(); }
+  });
 
   // Disclaimer collapse
   const disc = document.getElementById('disclaimer');

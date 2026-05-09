@@ -444,6 +444,100 @@
   table.t th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:600}
   table.t tbody tr:hover{background:var(--bg-subtle)}
   hr.sep{border:0;border-top:1px dashed var(--border-light);margin:8px 0}
+
+  /* ── Practice (Minha Prática) ── */
+  .practice-empty{padding:48px 20px;text-align:center;color:var(--text-secondary)}
+  .practice-empty .ico{width:64px;height:64px;border-radius:50%;background:var(--accent-primary-soft);color:var(--accent-primary);display:grid;place-items:center;margin:0 auto 16px}
+  .practice-empty .ico svg{width:32px;height:32px}
+  .practice-empty h4{font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:6px}
+  .practice-empty p{font-size:14px;line-height:1.5;max-width:340px;margin:0 auto}
+  .practice-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+  .practice-toolbar .seg-filter{display:flex;background:var(--bg-card);border:1px solid var(--border-light);border-radius:8px;padding:3px;box-shadow:var(--shadow-card)}
+  .practice-toolbar .seg-filter button{background:none;border:0;font:inherit;font-size:12.5px;font-weight:600;color:var(--text-secondary);padding:6px 12px;border-radius:6px;cursor:pointer}
+  .practice-toolbar .seg-filter button.active{background:var(--accent-primary);color:#fff}
+  .practice-toolbar .grow{flex:1;min-width:8px}
+  .wrapped-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#0066CC 0%,#7B3FE4 100%);color:#fff;border:0;border-radius:99px;padding:10px 16px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(123,63,228,.35);transition:transform .15s}
+  .wrapped-cta:hover{transform:translateY(-1px)}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .stat-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:4px}
+  .stat-num{font-size:30px;font-weight:700;letter-spacing:-.025em;color:var(--text-primary);line-height:1;font-variant-numeric:tabular-nums}
+  .stat-card .stat-unit{font-size:14px;color:var(--text-secondary);font-weight:500;margin-left:4px}
+  .stat-label{font-size:11.5px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+  .bar-row{display:flex;align-items:center;gap:10px;font-size:13px;padding:6px 0}
+  .bar-row + .bar-row{border-top:1px dashed var(--border-light)}
+  .bar-row .bar-label{flex:1;color:var(--text-primary);font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bar-row .bar-track{flex:1.4;height:8px;background:var(--bg-secondary);border-radius:99px;overflow:hidden}
+  .bar-row .bar-fill{height:100%;background:var(--accent-primary);border-radius:99px;transition:width .4s ease}
+  .bar-row .bar-count{font-variant-numeric:tabular-nums;font-weight:700;color:var(--text-secondary);font-size:12.5px;min-width:28px;text-align:right}
+  .dow-chart{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:120px;padding-top:8px}
+  .dow-col{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%}
+  .dow-bar-wrap{flex:1;width:100%;display:flex;align-items:flex-end}
+  .dow-bar{width:100%;background:linear-gradient(180deg,var(--accent-primary) 0%,#0050A3 100%);border-radius:6px 6px 0 0;min-height:2px;transition:height .4s ease;position:relative}
+  .dow-bar.empty{background:var(--bg-secondary);min-height:2px}
+  .dow-bar .dow-val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:700;color:var(--text-secondary);font-variant-numeric:tabular-nums}
+  .dow-lbl{font-size:11px;font-weight:600;color:var(--text-muted)}
+  .case-row{display:flex;align-items:center;gap:10px;padding:10px 0}
+  .case-row + .case-row{border-top:1px solid var(--border-light)}
+  .case-row .case-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .case-row .case-proc{font-size:14px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .case-row .case-proc.empty{color:var(--text-muted);font-style:italic;font-weight:500}
+  .case-row .case-meta{font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+  .case-row .case-dur{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--accent-primary);font-variant-numeric:tabular-nums;flex-shrink:0}
+  .case-row .case-del{background:none;border:0;color:var(--text-muted);cursor:pointer;padding:6px;border-radius:6px;flex-shrink:0}
+  .case-row .case-del:hover{color:var(--accent-danger);background:var(--accent-danger-soft)}
+  .case-row .case-del svg{width:14px;height:14px}
+  .wrapped-overlay{position:fixed;inset:0;z-index:120;background:#000;display:none;overflow:hidden}
+  .wrapped-overlay.open{display:block}
+  .stories-stage{position:absolute;inset:0;overflow:hidden}
+  .story-slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:90px 28px 100px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .story-slide.active{opacity:1;pointer-events:auto}
+  .story-slide .deco-top,.story-slide .deco-bot{position:absolute;left:0;right:0;pointer-events:none}
+  .story-slide .deco-top{top:0;height:35%}
+  .story-slide .deco-bot{bottom:0;height:35%}
+  .story-slide .deco-top svg,.story-slide .deco-bot svg{width:100%;height:100%;display:block}
+  .story-slide .body{position:relative;z-index:2}
+  .story-kicker{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.75;margin-bottom:14px}
+  .story-headline{font-family:Georgia,"Times New Roman",serif;font-weight:800;font-size:44px;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+  .story-headline em{font-style:normal;background:rgba(255,255,255,.18);padding:0 .15em;border-radius:6px}
+  .story-sub{font-size:18px;line-height:1.4;font-weight:500;margin-top:18px;opacity:.92;text-wrap:pretty}
+  .story-bignum{font-size:180px;font-weight:900;letter-spacing:-.05em;line-height:.85;font-variant-numeric:tabular-nums;font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+  .story-bignum.small{font-size:140px}
+  .story-rank{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+  .story-rank-row{display:flex;align-items:baseline;gap:14px;font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+  .story-rank-num{font-size:36px;font-weight:900;letter-spacing:-.03em;min-width:42px;font-variant-numeric:tabular-nums}
+  .story-rank-num sup{font-size:.5em;font-weight:800;vertical-align:.5em}
+  .story-rank-name{font-size:24px;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .story-rank-meta{font-size:14px;font-weight:600;opacity:.6;font-variant-numeric:tabular-nums}
+  .story-meta-line{margin-top:14px;font-size:14px;font-weight:600;opacity:.7;letter-spacing:.04em;text-transform:uppercase}
+  .story-recap-card{background:rgba(0,0,0,.85);border-radius:18px;padding:22px 22px 26px;color:#fff;display:flex;flex-direction:column;gap:14px}
+  .story-recap-card .rc-head{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+  .story-recap-card .rc-month{font-family:Georgia,serif;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .story-recap-card .rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:4px}
+  .story-recap-card .rc-stat{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .story-recap-card .rc-num{font-size:30px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+  .story-recap-card .rc-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.55}
+  .story-recap-card .rc-row{display:flex;flex-direction:column;gap:2px}
+  .story-recap-card .rc-row strong{font-size:18px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .story-recap-card .rc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+  .stories-progress{position:absolute;top:max(12px,env(safe-area-inset-top));left:14px;right:14px;display:flex;gap:4px;z-index:10}
+  .stories-progress .pbar{flex:1;height:3px;background:rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
+  .stories-progress .pbar .pfill{display:block;height:100%;width:0;background:#fff;border-radius:99px}
+  .stories-progress .pbar.done .pfill{width:100%}
+  .stories-head{position:absolute;top:calc(max(12px,env(safe-area-inset-top)) + 18px);left:14px;right:14px;display:flex;justify-content:space-between;align-items:center;z-index:10;color:#fff}
+  .stories-brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.04em;opacity:.95}
+  .stories-brand .brand-mark{display:inline-block;width:18px;height:18px;background:#fff;transform:rotate(45deg);border-radius:3px}
+  .stories-controls{display:flex;gap:8px}
+  .stories-controls button{width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.25);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(4px)}
+  .stories-controls button svg{width:14px;height:14px}
+  .story-tap{position:absolute;top:0;bottom:80px;width:34%;background:transparent;border:0;cursor:pointer;z-index:5}
+  .story-tap.left{left:0}
+  .story-tap.right{right:0;width:66%}
+  .stories-foot{position:absolute;bottom:max(18px,env(safe-area-inset-bottom));left:0;right:0;display:flex;justify-content:center;z-index:10;pointer-events:none}
+  .stories-foot button{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.96);color:#0F1117;border:0;border-radius:99px;padding:13px 22px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+  .stories-foot button svg{width:16px;height:16px}
+  .timer-proc{margin-top:10px;display:flex;align-items:center;gap:8px}
+  .timer-proc label{font-size:12px;font-weight:600;color:var(--text-muted);white-space:nowrap}
+  .timer-proc input{flex:1;font:inherit;font-size:13px;background:var(--bg-secondary);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text-primary)}
 </style>
 </head>
 <body>
@@ -525,6 +619,20 @@
       </div>
       <div class="timer-events" id="timerEvents"></div>
       <div class="timer-log" id="timerLog"></div>
+      <div class="timer-proc">
+        <label for="procInput" data-i18n="procedure">Procedimento</label>
+        <input type="text" id="procInput" list="procList" autocomplete="off" placeholder="ex: Colecistectomia">
+        <datalist id="procList">
+          <option value="Cesariana"></option><option value="Histerectomia"></option>
+          <option value="Colecistectomia"></option><option value="Apendicectomia"></option>
+          <option value="Hernioplastia"></option><option value="Endoscopia digestiva"></option>
+          <option value="Colonoscopia"></option><option value="Artroplastia de joelho"></option>
+          <option value="Artroplastia de quadril"></option><option value="Catarata"></option>
+          <option value="Mastectomia"></option><option value="Tireoidectomia"></option>
+          <option value="Septoplastia"></option><option value="Cardíaca"></option>
+          <option value="Pediátrica"></option><option value="Sedação"></option>
+        </datalist>
+      </div>
     </section>
   </aside>
 
@@ -639,6 +747,45 @@
       <div id="techList"></div>
     </section>
 
+    <section class="panel" data-panel="practice" role="tabpanel">
+      <div class="practice-empty" id="practiceEmpty">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="6" width="4" height="15" rx="1"/><rect x="17" y="9" width="4" height="12" rx="1"/></svg></div>
+        <h4 data-i18n="practice_empty_t">Sem casos ainda</h4>
+        <p data-i18n="practice_empty_d">Termine um caso tocando em "Fim caso" no timer cirúrgico para que ele apareça aqui.</p>
+      </div>
+      <div class="practice-content" id="practiceContent" style="display:none">
+        <div class="practice-toolbar">
+          <div class="seg-filter" id="practiceFilter" role="radiogroup">
+            <button type="button" data-range="month" class="active" data-i18n="practice_filter_month">Este mês</button>
+            <button type="button" data-range="all" data-i18n="practice_filter_all">12 meses</button>
+          </div>
+          <div class="grow"></div>
+          <button class="wrapped-cta" id="openWrapped" type="button"><span data-i18n="practice_open_wrapped">✨ Gerar Wrapped do mês</span></button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div><span class="stat-num" id="statCases">0</span></div><div class="stat-label" data-i18n="stat_cases">Casos</div></div>
+          <div class="stat-card"><div><span class="stat-num" id="statHours">0</span><span class="stat-unit" data-i18n="h_short">h</span></div><div class="stat-label" data-i18n="stat_or_hours">h em sala</div></div>
+          <div class="stat-card"><div><span class="stat-num" id="statAvg">0</span><span class="stat-unit" data-i18n="min_short">min</span></div><div class="stat-label" data-i18n="stat_avg">Tempo médio</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="practice_top_proc">Procedimentos mais frequentes</h3></div>
+          <div class="card-body" id="procDist"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="practice_top_drugs">Drogas mais usadas</h3></div>
+          <div class="card-body" id="drugDist"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="practice_dow">Distribuição semanal</h3></div>
+          <div class="card-body" id="dowChart"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="practice_recent">Casos recentes</h3></div>
+          <div class="card-body" id="casesList"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="panel" data-panel="blocks" role="tabpanel">
       <div class="card">
         <div class="card-head"><h3><span data-i18n="tab_blocks">Bloqueios Regionais</span></h3></div>
@@ -708,6 +855,23 @@
   <div class="emergency-content" id="emergencyContent"></div>
 </div>
 
+<div class="wrapped-overlay" id="wrappedOverlay" role="dialog" aria-modal="true" aria-label="Wrapped">
+  <div class="stories-progress" id="storiesProgress" aria-hidden="true"></div>
+  <div class="stories-head">
+    <div class="stories-brand"><span class="brand-mark"></span><span>AnesthesiaPro</span></div>
+    <div class="stories-controls">
+      <button id="storyPause" type="button" aria-label="Pausar"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="6" width="3.5" height="12" rx="1"/><rect x="13.5" y="6" width="3.5" height="12" rx="1"/></svg></button>
+      <button id="wrappedClose" type="button" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="stories-stage" id="storiesStage" aria-live="polite"></div>
+  <button class="story-tap left" id="storyTapLeft" type="button" aria-label="Anterior"></button>
+  <button class="story-tap right" id="storyTapRight" type="button" aria-label="Próximo"></button>
+  <div class="stories-foot">
+    <button id="wrappedShare" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg><span>Compartilhar</span></button>
+  </div>
+</div>
+
 <div class="install-banner" id="installBanner">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
   <p data-i18n="install_prompt">Instalar AnesthesiaPro para uso offline</p>
@@ -723,5 +887,6 @@
 <div class="toast" id="toast"></div>
 
 <script src="app.js"></script>
+<script src="practice.js"></script>
 </body>
 </html>

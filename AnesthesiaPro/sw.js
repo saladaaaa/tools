@@ -1,9 +1,10 @@
 /* AnesthesiaPro — Service Worker (cache-first with network fallback) */
-const CACHE = 'anesthesiapro-v2';
+const CACHE = 'anesthesiapro-v3';
 const ASSETS = [
   './',
   './index.html',
   './app.js',
+  './practice.js',
   './manifest.json',
   './fonts/BebasNeue-Regular.woff2'
 ];
